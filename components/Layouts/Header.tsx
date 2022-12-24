@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router'
+import Image from 'next/image';
 import {
-  Collapse,
   Navbar,
   NavbarToggler,
   NavbarBrand,
@@ -11,75 +10,96 @@ import {
   Offcanvas,
   OffcanvasHeader,
   OffcanvasBody,
-  Button,
 } from 'reactstrap' // import components from reactstarp
-import { useTranslation } from 'next-i18next' // import translation module
-
-import { I18next } from '../I18next' // import switch translation component
-
-// import images
-import Wtsap from '/assets/images/wtsap.svg'
-
-// const NAV_CLASS_NAME = 'navbar navbar-expand-lg navbar-dark bg-dark fixed-top'
 
 const Header = () => {
-  const router = useRouter()
-  const { t } = useTranslation('header') // use translation
-  const [collapsed, setCollapsed] = useState<boolean>(true)
-  const [isOffcanvas, setIsOffcanvas] = useState<boolean>(false) // 
-
-
-  const toggleNavbar = () => {
-    setCollapsed(!collapsed)
-    setIsOffcanvas(true)
-  }
+  const [isOffcanvas, setIsOffcanvas] = useState<boolean>(false) // Check statu of offcanvas menu(Open or close)
 
   return (
-    <header>
-      <Navbar className='Header' color='faded' light>
-        <NavbarBrand href='/' className='me-1 Header_whats-app'>
-          <img src={Wtsap} alt='WhatsApp Icon' />
-        </NavbarBrand>
-        <NavbarBrand href='/' className='me-1'>
-          reactstrap
-        </NavbarBrand>
-        <NavbarToggler onClick={() => {setIsOffcanvas(true)}} className='me-2' />
-        <Offcanvas toggle={() => setIsOffcanvas(false)} isOpen={isOffcanvas} direction='end'>
-          <OffcanvasHeader toggle={() => setIsOffcanvas(false)}>
-            Offcanvas
-          </OffcanvasHeader>
-          <OffcanvasBody>
-            <strong>
-              This is the Offcanvas body.
-            </strong>
-          </OffcanvasBody>
-        </Offcanvas>
-      </Navbar>
-      
-      {/* <Nav className={router.pathname === '/' ? NAV_CLASS_NAME : NAV_CLASS_NAME + 'navbar-shrink'}>
-        <I18next />
-        <NavItem>
-          <Link href='/'>
-            <a className='navbar-brand'>{t('home')}</a>
-          </Link>
-        </NavItem>
-        <NavItem className='ml-auto'>
-          <Link href='/auth/signin'>
-            <a className='nav-link'>{t('signin')}</a>
-          </Link>
-        </NavItem>
-        <NavItem>
-          <Link href='/counter'>
-            <a className='nav-link'>{t('counter')}</a>
-          </Link>
-        </NavItem>
-        <NavItem>
-          <Link href='/blog'>
-            <a className='nav-link'>{t('test')}</a>
-          </Link>
-        </NavItem>
-      </Nav> */}
-    </header>
+    <Navbar className='Header' color='faded' light>
+
+      {/* Display WhatsApp icon on the left of header bar */}
+      <NavbarBrand href='/' className='me-1 Header_whats-app'>
+        <Image src='/assets/images/wtsap.svg' alt='WhatsApp Icon' width={25} height={25} />
+      </NavbarBrand>
+
+      {/* Display logo icon on the center of header bar */}
+      <NavbarBrand href='/' className='me-1'>
+        <Image src='/stk_logo.svg' alt='logo' width={75} height={35} />
+      </NavbarBrand>
+
+      {/* Display menu icon on the right of header bar */}
+      <NavbarToggler 
+        className='me-2'
+        onClick={() => setIsOffcanvas(true)}
+      />
+
+      {/* offcanvas menu */}
+      <Offcanvas 
+        toggle={() => setIsOffcanvas(false)}
+        isOpen={isOffcanvas}
+        direction='end'
+      >
+
+        {/* offcanvas menu hader */}
+        <OffcanvasHeader
+          className='Header_offcanvas-header'
+          toggle={() => setIsOffcanvas(false)}
+        >
+          {/* Display stk logo the center of offcanvas header */}
+          <Image 
+            src='/stk_logo.svg' 
+            alt='logo' 
+            width={75} 
+            height={35} 
+          />
+        </OffcanvasHeader>
+
+        {/* offcanvas menu body */}
+        <OffcanvasBody
+          className='_offcanvas-body'
+        >
+          {/* Display menu item list */}
+          <Nav className='text-end mt-3' vertical>
+            <NavItem>
+              <NavLink className='Header_offcanvas-body_navLink-start-order fw-bold text-black' href="#">
+                התחלת הזמנה
+                <Image src='/assets/images/arr.svg' alt='start-order icon' width={55} height={8} />
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className='Header_offcanvas-body_navLink-text text-dark' href="#">
+                דברו איתנו במסנג’ר
+                <Image 
+                  className='mt-2'
+                  src='/assets/images/mcon1.svg' 
+                  alt='mcon1' 
+                  width={55} 
+                  height={31} 
+                />
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className='Header_offcanvas-body_navLink-text text-dark' href="#">
+                דברו איתנו בוואצאפ
+                <Image
+                  className='mt-2' 
+                  src='/assets/images/mcon2.svg' 
+                  alt='mcon2' 
+                  width={55} 
+                  height={31} 
+                />
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className='Header_offcanvas-body_navLink-text text-dark pe-5 pt-3' href="#">
+                שאלות נפוצות
+              </NavLink>
+            </NavItem>
+          </Nav>
+        </OffcanvasBody>
+      </Offcanvas>
+    </Navbar>
   )
 }
 
