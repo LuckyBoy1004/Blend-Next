@@ -4,7 +4,4 @@ const path = require('path')
 module.exports = {
   i18n,
   distDir: 'build',
-  sassOptions: {
-    includePaths: [path.join(__dirname, 'styles')],
-  },
 }

@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react'
 import Head from 'next/head'
 import Header from './Header'
-import Footer from './Footer'
 
 interface Props {
   children?: ReactNode
@@ -18,8 +17,6 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
       </Head>
       <Header />
       {children}
-      <hr />
-      <Footer />
     </div>
   )
 }
