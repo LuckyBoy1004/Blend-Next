@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import cuid from 'cuid'
-import Image from 'next/image';
+import * as filestack from 'filestack-js'
+import Image from 'next/image'
 import {
   Container,
   Button,
@@ -13,14 +14,45 @@ import {
 } from 'reactstrap' // import components from reactstarp
 import Layout from '../../components/Layouts/Layout'
 
+const filestackClient = filestack.init(process.env.REACT_APP_FILESTACK_APIKEY)
+
 const Counter = () => {
   const [isOffcanvas, setIsOffcanvas] = useState<boolean>(false) // Check statu of offcanvas menu(Open or close)
+
+  const uploadOptions = {
+    accept: ["image/*"],
+    maxFiles: 20,
+    uploadInBackground: false,
+    onUploadDone: (res: any) => {
+      console.log('res: ', res);
+    },
+  };
 
   const UploadImages = (e: any) => {
     setIsOffcanvas(true)
     return
   }
-  console.log(process.env.REACT_APP_BASE_URL)
+
+  // images upload function from local
+  const UploadImagesFromLocal = (e: any) => {
+    console.log(e)
+  }
+
+  const facebookPhotoImport = () => {
+    const options = {
+      fromSources: ["facebook"],
+      ...uploadOptions
+    }
+    filestackClient.picker(options).open();
+  };
+
+  const instagramPhotoImport = () => {
+    const options = {
+      fromSources: ["instagram"],
+      ...uploadOptions
+    };
+    filestackClient.picker(options).open();
+  };
 
   return (
     <Layout title={'upload-image'}>
@@ -36,7 +68,23 @@ const Counter = () => {
           <OffcanvasBody>
           <Nav className='text-end mt-1' vertical>
             <NavItem>
-              <NavLink className='UploadImage_offcanvas-upload-image-option_item text-dark pe-0'>
+              <NavLink 
+                className='UploadImage_offcanvas-upload-image-option_item text-dark pe-0'
+                onClick={(e: any) => {UploadImagesFromLocal(e)}}
+              >
+                <Input
+                  type='file'
+                  // accept='image/*'
+                  className='text-center position-absolute opacity-0'
+                  style={{width: 290, zIndex: 10}}
+                  // onChange={(e:any) => UploadImages(e)}
+                  // onClick={(e:any) => { 
+                  //   UploadImages(e) 
+                  //   e.preventDefault()
+                  // }}
+                  multiple
+                  name='file'
+                />
                 העלאת תמונות 
                 <Image 
                   className='mt-1'
@@ -48,7 +96,10 @@ const Counter = () => {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className='UploadImage_offcanvas-upload-image-option_item text-dark pe-0 mt-2'>
+              <NavLink 
+                className='UploadImage_offcanvas-upload-image-option_item text-dark pe-0 mt-2 cursor-pointer'
+                onClick={facebookPhotoImport}
+              >
                 ייבוא מהפייסבוק 
                 <Image 
                   className='mt-2'
@@ -60,7 +111,10 @@ const Counter = () => {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className='UploadImage_offcanvas-upload-image-option_item text-dark pe-0 mt-2'>
+              <NavLink 
+                className='UploadImage_offcanvas-upload-image-option_item text-dark pe-0 mt-2'
+                onClick={instagramPhotoImport}
+              >
                 ייבוא מהאינסטגרם
                 <Image
                   className='mt-2' 
