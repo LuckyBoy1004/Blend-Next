@@ -5,9 +5,15 @@ import { SampleData } from '../core/interfaces'
 import { Table } from 'reactstrap'
 import { useTranslation } from 'next-i18next'
 
+/**
+ * @name UserList Component
+ * 
+ */
+
 const UserList: React.FC = () => {
+  
   const { users } = useSelector((state: RootStateInterface): SampleData => state.sampledata)
-  const { t } = useTranslation('userlist')
+  const { t } = useTranslation('userlist') 
 
   return (
     <div className="mt-3">

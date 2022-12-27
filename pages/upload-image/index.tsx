@@ -16,7 +16,7 @@ import Layout from '../../components/Layouts/Layout'
 
 const filestackClient = filestack.init(process.env.REACT_APP_FILESTACK_APIKEY)
 
-const Counter = () => {
+const UploadImage = () => {
   const [isOffcanvas, setIsOffcanvas] = useState<boolean>(false) // Check statu of offcanvas menu(Open or close)
 
   const uploadOptions = {
@@ -156,4 +156,4 @@ const Counter = () => {
   )
 }
 
-export default Counter
+export default UploadImage
